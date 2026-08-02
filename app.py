@@ -47,7 +47,7 @@ if st.button("🚀 Buat Perangkat Pembelajaran", type="primary", use_container_w
     else:
         try:
             genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-pro')
+            model = genai.GenerativeModel('gemini-1.5-flash')
 
             prompt = f"""
             Bertindaklah sebagai Pakar Pengembang Kurikulum dan Instructional Designer Pembelajaran Mendalam (Deep Learning).
