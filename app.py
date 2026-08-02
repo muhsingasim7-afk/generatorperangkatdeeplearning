@@ -1,21 +1,25 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 
+# Konfigurasi Halaman Web
 st.set_page_config(
     page_title="Generator Perangkat Deep Learning",
     page_icon="📚",
     layout="wide"
 )
 
+# Judul Utama & Header
 st.title("📚 Generator Perangkat Pembelajaran Mendalam")
 st.caption("Aplikasi Pembuat Modul RPP, LKPD, Materi, Rubrik, dan Soal Sumatif Berbasis AI")
 
+# Sidebar untuk Pengaturan
 with st.sidebar:
     st.header("⚙️ Pengaturan Aplikasi")
-    api_key = st.text_input("Masukkan API Key Gemini:", type="password", help="Dapatkan API Key gratis di Google AI Studio")
+    api_key = st.text_input("Masukkan API Key Gemini:", type="password", help="Masukkan API Key (AQ...) dari Google AI Studio")
     st.markdown("---")
-    st.info("💡 **Petunjuk Penggunaan:**\n1. Masukkan API Key Gemini.\n2. Isi formulir di halaman utama.\n3. Klik tombol Generate.\n4. Salin/Unduh hasil.")
+    st.info("💡 **Petunjuk Penggunaan:**\n1. Masukkan API Key Gemini (AQ...).\n2. Isi formulir di halaman utama.\n3. Klik tombol Generate.\n4. Salin/Unduh hasil.")
 
+# Formulir Input Guru
 col1, col2 = st.columns(2)
 
 with col1:
@@ -39,6 +43,7 @@ tujuan_pembelajaran = st.text_area(
     value="Siswa dapat menganalisis hubungan antara keliling dan diameter lingkaran melalui masalah kontekstual."
 )
 
+# Tombol Eksekusi
 if st.button("🚀 Buat Perangkat Pembelajaran", type="primary", use_container_width=True):
     if not api_key:
         st.error("❌ Silakan masukkan API Key Gemini di menu sidebar kiri terlebih dahulu!")
@@ -46,8 +51,8 @@ if st.button("🚀 Buat Perangkat Pembelajaran", type="primary", use_container_w
         st.warning("⚠️ Tujuan Pembelajaran tidak boleh kosong!")
     else:
         try:
-            genai.configure(api_key=api_key)
-            model = genai.GenerativeModel('gemini-2.5-flash')
+            # Menggunakan Client genai SDK Terbaru yang kompatibel dengan Kunci AQ
+            client = genai.Client(api_key=api_key)
 
             prompt = f"""
             Bertindaklah sebagai Pakar Pengembang Kurikulum dan Instructional Designer Pembelajaran Mendalam (Deep Learning).
@@ -93,7 +98,10 @@ if st.button("🚀 Buat Perangkat Pembelajaran", type="primary", use_container_w
             """
 
             with st.spinner("⏳ Sedang memproses dan menyusun perangkat pembelajaran lengkap... Mohon tunggu sebentar."):
-                response = model.generate_content(prompt)
+                response = client.models.generate_content(
+                    model='gemini-2.5-flash',
+                    contents=prompt,
+                )
                 hasil_teks = response.text
 
             st.success("✅ Perangkat Pembelajaran Berhasil Dibuat!")
