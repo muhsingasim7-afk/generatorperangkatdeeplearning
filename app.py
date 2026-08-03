@@ -15,7 +15,11 @@ st.caption("Aplikasi Pembuat Modul RPP, LKPD, Materi, Rubrik, dan Soal Sumatif B
 # Sidebar untuk Pengaturan
 with st.sidebar:
     st.header("⚙️ Pengaturan Aplikasi")
-    api_key = st.text_input("Masukkan API Key Gemini:", type="password", help="Masukkan API Key (AQ...) dari Google AI Studio")
+    # Mengambil input teks
+    input_key = st.text_input("Masukkan API Key Gemini:", type="password", help="Masukkan API Key (AQ...) dari Google AI Studio")
+    # Menghapus spasi liar di awal/akhir jika ada
+    api_key = input_key.strip() if input_key else None
+    
     st.markdown("---")
     st.info("💡 **Petunjuk Penggunaan:**\n1. Masukkan API Key Gemini (AQ...).\n2. Isi formulir di halaman utama.\n3. Klik tombol Generate.\n4. Salin/Unduh hasil.")
 
